@@ -142,6 +142,10 @@ namespace CustomMath
 
         public static float Dot(Quat a, Quat b)
         {
+
+            ///Dot product is the magnitude of the proyected vector between two vectors
+            ///It is also the Acos of the angle between two normalized vectors
+
             return a.x * b.x + a.y * b.y + a.z * b.z + a.w * b.w;
         }
 
@@ -286,6 +290,17 @@ namespace CustomMath
 
         public static Quat SlerpUnclamped(Quat a, Quat b, float t)
         {
+
+
+
+            /// Slerp is spherical linear interpolation
+            /// keeps the magnitude of the quat the same throughout
+            /// therefore following a spherical path
+            /// it mantains angular momentum
+
+
+
+
             float dot = Dot(a, b);
             Quat b2 = b;
 
@@ -315,8 +330,40 @@ namespace CustomMath
 
         public static Vec3 ToEulerAngles(Quat rotation)
         {
-            //Nose gracias unity
-            return new Vec3(((Quaternion)rotation).eulerAngles);
+            Vec3 euler = new Vec3();
+
+            float sqw = rotation.w * rotation.w;
+            float sqx = rotation.x * rotation.x;
+            float sqy = rotation.y * rotation.y;
+            float sqz = rotation.z * rotation.z;
+            float unit = sqx + sqy + sqz + sqw;
+
+            float test = rotation.x * rotation.w - rotation.y * rotation.z;
+
+            if (test > 0.4995f * unit)
+            {
+                euler.y = 2f * MathF.Atan2(rotation.y, rotation.x);
+                euler.x = MathF.PI / 2f;
+                euler.z = 0f;
+            }
+            else if (test < -0.4995f * unit)
+            {
+                euler.y = -2f * MathF.Atan2(rotation.y, rotation.x);
+                euler.x = -MathF.PI / 2f;
+                euler.z = 0f;
+            }
+            else
+            {
+                euler.y = MathF.Atan2(2f * (rotation.w * rotation.y + rotation.z * rotation.x), 1f - 2f * (sqx + sqy));
+                euler.x = MathF.Asin(2f * test / unit);
+                euler.z = MathF.Atan2(2f * (rotation.w * rotation.z + rotation.x * rotation.y), 1f - 2f * (sqz + sqx));
+            }
+            
+            euler.x = NormalizeAngle(euler.x * radToDeg);
+            euler.y = NormalizeAngle(euler.y * radToDeg);
+            euler.z = NormalizeAngle(euler.z * radToDeg);
+
+            return euler;
         }
         #endregion
 
@@ -368,7 +415,7 @@ namespace CustomMath
         {
             float sqrMag = x * x + y * y + z * z;
             if (sqrMag > epsilon)
-            {
+            { 
                 angle = 2f * MathF.Acos(w) * radToDeg;
                 float invMag = 1f / MathF.Sqrt(sqrMag);
                 axis = new Vec3(x * invMag, y * invMag, z * invMag);
@@ -401,6 +448,12 @@ namespace CustomMath
         public override int GetHashCode()
         {
             return HashCode.Combine(x, y, z, w);
+        }
+        private static float NormalizeAngle(float angle)
+        {
+            float mod = angle % 360f;
+            if (mod < 0f) mod += 360f;
+            return mod;
         }
 
         public override string ToString()
