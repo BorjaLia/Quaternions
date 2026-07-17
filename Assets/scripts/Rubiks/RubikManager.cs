@@ -15,7 +15,7 @@ public class RubikManager : MonoBehaviour
     [Header("Debug TRS")]
     [SerializeField] private List<FaceCenterData> centerMatrices = new List<FaceCenterData>();
 
-    private List<Transform> allCubies = new List<Transform>();
+    private List<Transform> allCubes = new List<Transform>();
     private bool isAnimating = false;
 
     [System.Serializable]
@@ -31,7 +31,7 @@ public class RubikManager : MonoBehaviour
         //Get all cubes
         foreach (Transform child in cubiesParent)
         {
-            allCubies.Add(child);
+            allCubes.Add(child);
         }
 
         IdentifyCenters();
@@ -58,7 +58,7 @@ public class RubikManager : MonoBehaviour
         Vec3 centerOfRotation = cmd.axis * cmd.slice;
 
         //Find cubes in face
-        foreach (var cubie in allCubies)
+        foreach (var cubie in allCubes)
         {
             Vec3 localPos = new Vec3(cubie.localPosition.x, cubie.localPosition.y, cubie.localPosition.z);
 
@@ -126,7 +126,7 @@ public class RubikManager : MonoBehaviour
     private void IdentifyCenters()
     {
         // Center mag is always 1
-        foreach (var cubie in allCubies)
+        foreach (var cubie in allCubes)
         {
             Vec3 pos = new Vec3(cubie.localPosition.x, cubie.localPosition.y, cubie.localPosition.z);
             if (Mathf.Approximately(pos.sqrMagnitude, 1f))

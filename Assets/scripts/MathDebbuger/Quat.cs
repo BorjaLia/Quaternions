@@ -77,23 +77,9 @@ namespace CustomMath
 
         public static Vec3 operator *(Quat rotation, Vec3 point)
         {
-            float num = rotation.x * 2f;
-            float num2 = rotation.y * 2f;
-            float num3 = rotation.z * 2f;
-            float num4 = rotation.x * num;
-            float num5 = rotation.y * num2;
-            float num6 = rotation.z * num3;
-            float num7 = rotation.x * num2;
-            float num8 = rotation.x * num3;
-            float num9 = rotation.y * num3;
-            float num10 = rotation.w * num;
-            float num11 = rotation.w * num2;
-            float num12 = rotation.w * num3;
-            Vec3 result = default;
-            result.x = (1f - (num5 + num6)) * point.x + (num7 - num12) * point.y + (num8 + num11) * point.z;
-            result.y = (num7 + num12) * point.x + (1f - (num4 + num6)) * point.y + (num9 - num10) * point.z;
-            result.z = (num8 - num11) * point.x + (num9 + num10) * point.y + (1f - (num4 + num5)) * point.z;
-            return result;
+            Vec3 temp = 2 * Vec3.Cross(new Vec3(rotation.x, rotation.y, rotation.z), point);
+
+            return new Vec3(point + rotation.w * temp + Vec3.Cross(new Vec3(rotation.x, rotation.y, rotation.z), temp));
         }
 
         public static Quat operator *(Quat lhs, Quat rhs)

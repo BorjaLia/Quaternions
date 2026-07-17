@@ -907,6 +907,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isPositiveRotation: 1
+  scrambleMoves: 20
 --- !u!4 &1056007107
 Transform:
   m_ObjectHideFlags: 0
@@ -1129,13 +1130,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1636376292}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0.92387956, z: 0, w: 0.38268343}
+  m_LocalRotation: {x: 0.053259235, y: 0.91488844, z: -0.12857917, w: 0.37895918}
   m_LocalPosition: {x: -8, y: 3, z: 8}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 135, z: 0}
+  m_LocalEulerAnglesHint: {x: 16, y: 135, z: 0}
 --- !u!114 &1636376296
 MonoBehaviour:
   m_ObjectHideFlags: 0
